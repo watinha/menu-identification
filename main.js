@@ -59,9 +59,12 @@ page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check0
             (function () {
                 var index = i;
                 chain.add(function () {
+                    page.sendEvent('mousemove', 0, 0);
+                }, this, 0);
+                chain.add(function () {
                     page.render("data/" + index + ".first.png");
                     page.sendEvent('mousemove', elements_position[index].left + 1, elements_position[index].top + 1);
-                }, this, 1);
+                }, this, 300);
                 chain.add(function () {
                     page.render("data/" + index + ".second.png");
                 }, this, 500);
