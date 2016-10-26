@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <title>Index</title>
+        <style type="text/css" media="screen">
+            a {
+                display: inline-block;
+                position: relative;
+                width: 100px;
+                height: 20px;
+                padding: 10px;
+                background-color: #FFEEDD;
+                margin-right: 30px;
+                -webkit-transition: all linear 0.3s;
+            }
+            a:hover {
+                background-color: #FFAAAA;
+            }
+            .tooltip_link:hover span.tooltip,
+            span.tooltip.open {
+                opacity: 1;
+                -webkit-transform: scale(1);
+            }
+            span.tooltip {
+                position: absolute;
+                box-shadow: 3px 3px 6px #666;
+                border-radius: 3px;
+                padding: 10px;
+                top: 200px;
+                left: 30px;
+                width: 100%;
+                opacity: 1;
+                -webkit-transition: all linear 0.3s;
+                -webkit-transform: scale(0.1);
+            }
+            span.arrow {
+                border-style: solid;
+                border-width: 0 10px 10px 10px;
+                border-color: transparent transparent white transparent;
+                position: absolute;
+                -webkit-transition: all linear 0.6s;
+                top: 0;
+            }
+            a:hover span.tooltip span.arrow {
+                top: -10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1 style="background-color: red">Testing</h1>
+        <a id="link2" href="#">
+            Tooltip 3
+        </a>
+        <a id="link3" href="#">
+            Tooltip 3
+        </a>
+        <script type="text/javascript" charset="utf-8">
+            (function () {
+                var dialog3 = document.createElement("span"),
+                    arrow2 = document.createElement("span"),
+                    dialog4 = document.createElement("div");
+                dialog3.className = "tooltip open";
+                dialog3.style.top = "300px";
+                dialog3.innerHTML = "Useful 3";
+                arrow2.className = "arrow";
+                dialog3.appendChild(arrow2);
+                document.querySelector("#link2").onmouseover = function () {
+                    document.body.appendChild(dialog4);
+                    dialog4.appendChild(dialog3);
+                };
+                document.querySelector("#link2").onmouseout = function () {
+                    setTimeout(function () {
+                        document.body.removeChild(dialog4);
+                        dialog4.removeChild(dialog3);
+                    }, 2000);
+                };
+            })();
+            (function () {
+                var dialog3 = document.createElement("span"),
+                    arrow2 = document.createElement("span"),
+                    dialog4 = document.createElement("div");
+                dialog3.className = "tooltip open";
+                dialog3.innerHTML = "Useful 4";
+                arrow2.className = "arrow";
+                dialog3.appendChild(arrow2);
+                document.querySelector("#link3").onmouseover = function () {
+                    document.body.appendChild(dialog4);
+                    dialog4.appendChild(dialog3);
+                };
+                document.querySelector("#link3").onmouseout = function () {
+                    document.body.removeChild(dialog4);
+                    dialog4.removeChild(dialog3);
+                };
+            })();
+        </script>
+    </body>
+</html>

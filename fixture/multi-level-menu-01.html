@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Exercício Pseudo-classes</title>
+        <style type="text/css" media="screen">
+            ul li {
+                height: 90px;
+                width: 150px;
+                display: block;
+            }
+            ul ul {
+                display: none;
+            }
+            ul > li:hover > ul {
+                display: block;
+            }
+            ul li:hover > ul > li,
+            ul li > ul > li:hover {
+                display: block;
+                position: relative;
+                left: 110px;
+                border: 1px solid black;
+            }
+            ul li li:hover {
+                background-color: #7799EE;
+            }
+            .red {
+                background-color: red;
+            }
+            .blue {
+                background-color: blue;
+            }
+            .orange {
+                background-color: #FF6666;
+            }
+            .yellow {
+                background-color: yellow;
+            }
+            .green {
+                background-color: green;
+            }
+            .gray {
+                background-color: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            <li class="red">
+                Aloha 1
+                <ul>
+                    <li class="gray 1">Nothing here</li>
+                    <li class="gray 2">
+                        Aloha 2
+                        <ul>
+                            <li class="gray 3">Something level 2</li>
+                            <li class="gray 4">Something level 2</li>
+                            <li class="gray 5">Something level 2</li>
+                        </ul>
+                    </li>
+                    <li class="gray 9">Nothing here</li>
+                </ul>
+            </li>
+            <li class="blue">
+                Aloha 3
+                <ul>
+                    <li class="gray 10">Nothing</li>
+                    <li class="gray 11">Nothing</li>
+                </ul>
+            </li>
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Viewport_visibility01</title>
+        <style type="text/css" media="screen">
+            #menu01 {
+                width: 300px;
+                padding: 10px;
+                background-color: #EEEEEE;
+                box-shadow: 3px 3px 3px #999;
+                border-radius: 3px;
+                position: relative;
+            }
+            #menu01 .menu {
+                display: block;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background-color: #CCCCFF;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                max-height: 0;
+                overflow: hidden;
+                transition: all linear 0.3s;
+            }
+            #menu01:hover .menu {
+                max-height: 300px;
+            }
+            #menu01 .menu li {
+                padding: 10px;
+                display: block;
+                border: solid 1px black;
+            }
+        </style>
+    </head>
+    <body>
+        <a id="menu01">First menu
+            <ul class="menu">
+                <li>Something</li>
+                <li>Some other thing</li>
+            </ul>
+        </a>
+    </body>
+</html>

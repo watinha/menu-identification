@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Exercício Pseudo-classes</title>
+        <style type="text/css" media="screen">
+            li:hover {
+                background-color: #EEEEEE;
+            }
+            ul li {
+                height: 90px;
+                width: 150px;
+                display: block;
+            }
+            ul ul {
+                position: relative;
+                left: 140px;
+                padding: 0;
+            }
+            ul li ul li,
+            ul li ul li {
+                display: block;
+                border: 1px solid black;
+            }
+            ul li li {
+                background-color: #7799EE;
+            }
+            .red {
+                background-color: red;
+            }
+            .blue {
+                background-color: blue;
+            }
+            .orange {
+                background-color: #FF6666;
+            }
+            .yellow {
+                background-color: yellow;
+            }
+            .green {
+                background-color: green;
+            }
+            .gray {
+                background-color: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <ul>
+            <li class="red"> Aloha 1 </li>
+            <li class="blue"> Aloha 3 </li>
+        </ul>
+        <script type="text/javascript" charset="utf-8">
+            (function () {
+                var first_level = document.querySelector(".blue"),
+                    first_menu = document.createElement("ul"),
+                    second_menu = document.createElement("ul"),
+                    aux, aux2, timer, timer2;
+
+                aux = document.createElement("li");
+                aux.innerHTML = "aloha 3.1";
+                first_menu.appendChild(aux);
+                aux = document.createElement("li");
+                aux.innerHTML = "aloha 3.2";
+                first_menu.appendChild(aux);
+
+                first_level.addEventListener("mouseover", function () {
+                    clearTimeout(timer);
+                    first_level.appendChild(first_menu);
+                });
+                first_menu.addEventListener("mouseover", function () {
+                    clearTimeout(timer);
+                });
+                first_menu.addEventListener("mouseover", function () {
+                    timer = setTimeout(function () {
+                        first_level.removeChild(first_menu);
+                    }, 300);
+                });
+                first_level.addEventListener("mouseout", function () {
+                    timer = setTimeout(function () {
+                        first_level.removeChild(first_menu);
+                    }, 300);
+                });
+
+                aux2 = document.createElement("li");
+                aux2.innerHTML = "aloha 3.2.1";
+                second_menu.appendChild(aux2);
+                aux2 = document.createElement("li");
+                aux2.innerHTML = "aloha 3.2.2";
+                second_menu.appendChild(aux2);
+                aux.addEventListener("mouseover", function () {
+                    clearTimeout(timer2);
+                    aux.appendChild(second_menu);
+                });
+                second_menu.addEventListener("mouseover", function () {
+                    clearTimeout(timer2);
+                });
+                second_menu.addEventListener("mouseover", function () {
+                    timer2 = setTimeout(function () {
+                        aux.removeChild(second_menu);
+                    }, 300);
+                });
+                aux.addEventListener("mouseout", function () {
+                    timer2 = setTimeout(function () {
+                        aux.removeChild(second_menu);
+                    }, 300);
+                });
+            })();
+        </script>
+    </body>
+</html>
