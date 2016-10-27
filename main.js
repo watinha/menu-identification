@@ -2,33 +2,6 @@ var page = require('webpage').create();
 page.settings.userAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0';
 page.viewportSize = { width: 1200, height: 600 };
 
-WidgetIdentification = {
-    findAll: function () {
-        function position(element) {
-            if (element.parentElement == null)
-                return { left: element.offsetLeft, top: element.offsetTop };
-            var parent_element = position(element.parentElement);
-            return {
-                left: (element.offsetLeft + parent_element.left),
-                top: (element.offsetTop + parent_element.top),
-                width: element.offsetWidth,
-                height: element.offsetHeight
-            };
-        }
-        function is_visible (element) {
-            return (VisSense(element)).isVisible();
-        }
-        var all_elements = document.querySelectorAll('*'),
-            result = [];
-        for (var i = 0; i < all_elements.length; i++) {
-            if (is_visible(all_elements[i])) {
-                result.push(position(all_elements[i]));
-            }
-        };
-        return result;
-    }
-};
-
 var CommandChain = function (page) {
     var commands = [];
     return {
@@ -56,8 +29,11 @@ var CommandChain = function (page) {
 
 page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check01.html', function () {
     page.injectJs('vissense.js');
+    page.injectJs('window-controller.js');
 
-    var elements_position = page.evaluate(WidgetIdentification.findAll),
+    var elements_position = page.evaluate(function () {
+            return window.WindowController.get_visible_elements();
+        }),
         chain = CommandChain(page);
 
     for (var i = 0; i < elements_position.length; i++) {
