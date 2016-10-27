@@ -10,7 +10,9 @@ WidgetIdentification = {
             var parent_element = position(element.parentElement);
             return {
                 left: (element.offsetLeft + parent_element.left),
-                top: (element.offsetTop + parent_element.top)
+                top: (element.offsetTop + parent_element.top),
+                width: element.offsetWidth,
+                height: element.offsetHeight
             };
         }
         function is_visible (element) {
@@ -56,14 +58,10 @@ page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check0
     page.injectJs('vissense.js');
 
     var elements_position = page.evaluate(WidgetIdentification.findAll),
-        chain = CommandChain(page),
-        previous_hovered = null;
+        chain = CommandChain(page);
 
-    for (var i = (elements_position.length - 1); i >= 0; i--) {
-        if (previous_hovered === null ||
-                (previous_hovered.top !== elements_position[i].top &&
-                 previous_hovered.left !== elements_position[i].left)) {
-            previous_hovered = elements_position[i];
+    for (var i = 0; i < elements_position.length; i++) {
+        if (elements_position[i].height < 100 && elements_position[i].width < 300) {
             (function () {
                 var index = i;
                 chain.add(function () {
@@ -71,7 +69,8 @@ page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check0
                 }, this, 0);
                 chain.add(function () {
                     page.render("data/" + index + ".first.png");
-                    page.sendEvent('mousemove', elements_position[index].left + 1, elements_position[index].top + 1);
+                    page.sendEvent('mousemove', (elements_position[index].left + (elements_position[index].width / 2)),
+                                                (elements_position[index].top + (elements_position[index].height / 2)));
                 }, this, 300);
                 chain.add(function () {
                     page.render("data/" + index + ".second.png");
