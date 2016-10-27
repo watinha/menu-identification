@@ -1,4 +1,5 @@
-var page = require('webpage').create();
+var page = require('webpage').create(),
+    fs = require('fs');
 page.settings.userAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0';
 page.viewportSize = { width: 1200, height: 600 };
 
@@ -28,7 +29,7 @@ var CommandChain = function (page) {
 };
 
 page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check01.html', function () {
-    page.injectJs('vissense.js');
+    page.injectJs('visibility.js');
     page.injectJs('window-controller.js');
 
     var elements_position = page.evaluate(function () {
@@ -49,7 +50,19 @@ page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check0
                                                 (elements_position[index].top + (elements_position[index].height / 2)));
                 }, this, 300);
                 chain.add(function () {
-                    page.render("data/" + index + ".second.png");
+                    var changes = page.evaluate(function () {
+                        return window.WindowController.check_visibility_changes();
+                    });
+                    if (changes.length === 0) {
+                        fs.remove("data/" + index + ".first.png");
+                    } else {
+                        var output = '';
+                        for (var i = 0; i < changes.length; i++) {
+                            output += changes[i] + '**\n';
+                        };
+                        fs.write('data/' + index + '.widgets.txt', output, 'w');
+                        page.render("data/" + index + ".second.png");
+                    }
                 }, this, 500);
             }());
         }
