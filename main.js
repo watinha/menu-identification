@@ -1,4 +1,6 @@
 var page = require('webpage').create();
+page.settings.userAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0';
+page.viewportSize = { width: 1200, height: 600 };
 
 WidgetIdentification = {
     findAll: function () {
@@ -11,11 +13,15 @@ WidgetIdentification = {
                 top: (element.offsetTop + parent_element.top)
             };
         }
-
+        function is_visible (element) {
+            return (VisSense(element)).isVisible();
+        }
         var all_elements = document.querySelectorAll('*'),
             result = [];
         for (var i = 0; i < all_elements.length; i++) {
-            result[i] = position(all_elements[i]);
+            if (is_visible(all_elements[i])) {
+                result.push(position(all_elements[i]));
+            }
         };
         return result;
     }
@@ -47,6 +53,8 @@ var CommandChain = function (page) {
 };
 
 page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check01.html', function () {
+    page.injectJs('vissense.js');
+
     var elements_position = page.evaluate(WidgetIdentification.findAll),
         chain = CommandChain(page),
         previous_hovered = null;
