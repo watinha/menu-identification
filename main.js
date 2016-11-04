@@ -1,7 +1,13 @@
 var page = require('webpage').create(),
-    fs = require('fs');
+    fs = require('fs'),
+    args = require('system').args;
 page.settings.userAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0';
 page.viewportSize = { width: 1200, height: 600 };
+
+if (args.length < 2) {
+    console.log('you should input an URL as well...');
+    phantom.exit();
+};
 
 var CommandChain = function (page) {
     var commands = [];
@@ -28,7 +34,7 @@ var CommandChain = function (page) {
     };
 };
 
-page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check02.html', function () {
+page.open(args[1], function () {
     page.injectJs('visibility.js');
     page.injectJs('window-controller.js');
 
