@@ -5,6 +5,11 @@
             added_elements = [],
             all_elements = null;
 
+        function _meta_data(element) {
+            var result = _position(element);
+            result.html = element.outerHTML;
+            return result;
+        }
         function _position(element) {
             if (element.parentElement == null)
                 return { left: element.offsetLeft, top: element.offsetTop };
@@ -52,25 +57,21 @@
             check_visibility_changes: function () {
                 var changes = [],
                     result = [],
-                    i, widget;
+                    i;
                 for (i = 0; i < invisible_elements.length; i++) {
                     if (_is_visible(invisible_elements[i])) {
                         changes.push(invisible_elements[i]);
                     }
                 };
                 for (i = 0; i < changes.length; i++) {
-                    widget = _position(changes[i]);
-                    widget.html = changes[i].outerHTML;
-                    result.push(widget);
+                    result.push(_meta_data(changes[i]));
                 };
                 return result;
             },
             check_mutation_changes: function () {
-                var result = [], widget;
+                var result = [];
                 for (var i = 0; i < added_elements.length; i++) {
-                    widget = _position(added_elements[i]);
-                    widget.html = added_elements[i].outerHTML;
-                    result.push(widget);
+                    result.push(_meta_data(added_elements[i]));
                 };
                 added_elements = [];
                 return result;
