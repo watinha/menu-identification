@@ -62,10 +62,10 @@ page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check0
                         var output = '',
                             i;
                         for (i = 0; i < changes.length; i++) {
-                            output += changes[i] + '**\n';
+                            output += changes[i].html + '**\n';
                         };
                         for (i = 0; i < mutations.length; i++) {
-                            output += mutations[i] + '**\n';
+                            output += mutations[i].html + '**\n';
                         };
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
                         page.render("data/" + index + ".second.png");

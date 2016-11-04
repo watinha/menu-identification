@@ -52,21 +52,25 @@
             check_visibility_changes: function () {
                 var changes = [],
                     result = [],
-                    i;
+                    i, widget;
                 for (i = 0; i < invisible_elements.length; i++) {
                     if (_is_visible(invisible_elements[i])) {
                         changes.push(invisible_elements[i]);
                     }
                 };
                 for (i = 0; i < changes.length; i++) {
-                    result.push(changes[i].outerHTML);
+                    widget = _position(changes[i]);
+                    widget.html = changes[i].outerHTML;
+                    result.push(widget);
                 };
                 return result;
             },
             check_mutation_changes: function () {
-                var result = [];
+                var result = [], widget;
                 for (var i = 0; i < added_elements.length; i++) {
-                    result.push(added_elements[i].outerHTML);
+                    widget = _position(added_elements[i]);
+                    widget.html = added_elements[i].outerHTML;
+                    result.push(widget);
                 };
                 added_elements = [];
                 return result;
