@@ -60,12 +60,20 @@ page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check0
                         fs.remove("data/" + index + ".first.png");
                     } else {
                         var output = '',
-                            i;
+                            i, max_html = 0, max_index = -1, widget = null;
                         for (i = 0; i < changes.length; i++) {
-                            output += changes[i].html + '**\n';
+                            if (max_html < changes[i].html.length) {
+                                max_html = changes[i].html.length;
+                                max_index = i;
+                                output = changes[max_index].html;
+                            }
                         };
                         for (i = 0; i < mutations.length; i++) {
-                            output += mutations[i].html + '**\n';
+                            if (max_html < mutations[i].html.length) {
+                                max_html = mutations[i].html.length;
+                                max_index = i;
+                                output = mutations[max_index].html;
+                            }
                         };
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
                         page.render("data/" + index + ".second.png");
