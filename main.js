@@ -72,6 +72,7 @@ page.open(args[1], function () {
                                 max_html = changes[i].html.length;
                                 max_index = i;
                                 output = changes[max_index].html;
+                                widget = changes[max_index];
                             }
                         };
                         for (i = 0; i < mutations.length; i++) {
@@ -79,6 +80,7 @@ page.open(args[1], function () {
                                 max_html = mutations[i].html.length;
                                 max_index = i;
                                 output = mutations[max_index].html;
+                                widget = mutations[max_index];
                             }
                         };
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
