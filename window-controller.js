@@ -2,6 +2,7 @@
     window.WindowController = (function () {
         var visible_elements = [],
             invisible_elements = [],
+            added_elements = [],
             all_elements = null;
 
         function _position(element) {
@@ -18,6 +19,18 @@
         function _is_visible (element) {
             return element.isVisible();
         }
+
+        window.observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                if (mutation.addedNodes && mutation.addedNodes.length > 0 &&
+                    mutation.addedNodes[0].nodeType === 1) {
+                    for (var j = 0; j < mutation.addedNodes.length; j++) {
+                        added_elements.push(mutation.addedNodes[j]);
+                    }
+                }
+            });
+        });
+        window.observer.observe(document.body, {childList: true, subtree: true});
 
         all_elements = document.querySelectorAll('*');
         for (var i = 0; i < all_elements.length; i++) {
@@ -48,6 +61,14 @@
                 for (i = 0; i < changes.length; i++) {
                     result.push(changes[i].outerHTML);
                 };
+                return result;
+            },
+            check_mutation_changes: function () {
+                var result = [];
+                for (var i = 0; i < added_elements.length; i++) {
+                    result.push(added_elements[i].outerHTML);
+                };
+                added_elements = [];
                 return result;
             }
         };

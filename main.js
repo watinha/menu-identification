@@ -28,7 +28,7 @@ var CommandChain = function (page) {
     };
 };
 
-page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check01.html', function () {
+page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check02.html', function () {
     page.injectJs('visibility.js');
     page.injectJs('window-controller.js');
 
@@ -51,14 +51,21 @@ page.open('file:///home/willian/workspace/aria-check-menus/fixture/sanity_check0
                 }, this, 300);
                 chain.add(function () {
                     var changes = page.evaluate(function () {
-                        return window.WindowController.check_visibility_changes();
-                    });
-                    if (changes.length === 0) {
+                            return window.WindowController.check_visibility_changes();
+                        }),
+                        mutations = page.evaluate(function () {
+                            return window.WindowController.check_mutation_changes();
+                        });
+                    if (changes.length === 0 && mutations.length === 0) {
                         fs.remove("data/" + index + ".first.png");
                     } else {
-                        var output = '';
-                        for (var i = 0; i < changes.length; i++) {
+                        var output = '',
+                            i;
+                        for (i = 0; i < changes.length; i++) {
                             output += changes[i] + '**\n';
+                        };
+                        for (i = 0; i < mutations.length; i++) {
+                            output += mutations[i] + '**\n';
                         };
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
                         page.render("data/" + index + ".second.png");
