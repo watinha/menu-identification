@@ -66,22 +66,12 @@ page.open(args[1], function () {
                         fs.remove("data/" + index + ".first.png");
                     } else {
                         var output = '',
-                            i, max_html = 0, max_index = -1, widget = null;
+                            i;
                         for (i = 0; i < changes.length; i++) {
-                            if (max_html < changes[i].html.length) {
-                                max_html = changes[i].html.length;
-                                max_index = i;
-                                output = changes[max_index].html;
-                                widget = changes[max_index];
-                            }
+                            output += changes[i].html + '**\n';
                         };
                         for (i = 0; i < mutations.length; i++) {
-                            if (max_html < mutations[i].html.length) {
-                                max_html = mutations[i].html.length;
-                                max_index = i;
-                                output = mutations[max_index].html;
-                                widget = mutations[max_index];
-                            }
+                            output += mutations[i].html + '**\n';
                         };
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
                         page.render("data/" + index + ".second.png");
