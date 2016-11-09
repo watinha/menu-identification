@@ -8,6 +8,10 @@
         function _meta_data(element) {
             var result = _position(element);
             result.html = element.outerHTML;
+            result.visible = _is_visible(element);
+            result.numberOfElements = _number_of_elements(element);
+            result.numberOfWords = _number_of_words(element);
+
             /* Related work */
             result.presenceTable = _presence_of_element(element, 'table');
             result.presenceUl = _presence_of_element(element, 'ul');
@@ -19,6 +23,27 @@
             result.proportionNumberTextNodes = _proportion_number_in_textnodes(element);
             result.percentLinks = _80_percent_links(element);
             return result;
+        }
+        function _number_of_words (element) {
+            var target = element,
+                aux = null, elements = [],
+                number_of_words = 0;
+
+            elements.push(target);
+            while (elements.length != 0) {
+                aux = elements.pop();
+                for (var i = 0; i < aux.childNodes.length; i++) {
+                    if (aux.childNodes[i].nodeType === 3) {
+                        number_of_words += aux.childNodes[i].nodeValue.split(" ").length;
+                    }
+                    if (aux.childNodes[i].nodeType === 1)
+                        elements.push(aux.childNodes[i]);
+                }
+            }
+            return number_of_words;
+        }
+        function _number_of_elements (element) {
+            return element.querySelectorAll('*').length;
         }
         function _80_percent_links (element) {
             var target = element,
