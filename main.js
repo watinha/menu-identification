@@ -27,6 +27,7 @@ var CommandChain = function (page) {
                 (function () {
                     var index = i;
                     setTimeout(function () {
+                        console.log('Command chain: running command ' + index);
                         commands[index].f.apply(commands[index].context, []);
                     }, total_time);
                 }());
@@ -50,12 +51,12 @@ page.open(args[1], function () {
                 var index = i;
                 chain.add(function () {
                     page.sendEvent('mousemove', 0, 0);
-                }, this, 0);
+                }, this, 500);
                 chain.add(function () {
                     page.render("data/" + index + ".first.png");
                     page.sendEvent('mousemove', (elements_position[index].left + (elements_position[index].width / 2)),
                                                 (elements_position[index].top + (elements_position[index].height / 2)));
-                }, this, 300);
+                }, this, 500);
                 chain.add(function () {
                     var changes = page.evaluate(function () {
                             return window.WindowController.check_visibility_changes();
@@ -87,7 +88,7 @@ page.open(args[1], function () {
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
                         page.render("data/" + index + ".second.png");
                     }
-                }, this, 500);
+                }, this, 1000);
             }());
         }
     };

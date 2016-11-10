@@ -191,7 +191,7 @@
                             changes.push(invisible_elements[i]);
                             last = invisible_elements[i];
                         }
-                        invisible_elements.splice(i, 1);
+                        //invisible_elements.splice(i, 1);
                     }
                 };
                 for (i = 0; i < changes.length; i++) {
