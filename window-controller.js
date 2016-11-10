@@ -186,9 +186,12 @@
                     result = [],
                     i, last = null;
                 for (i = 0; i < invisible_elements.length; i++) {
-                    if (_is_visible(invisible_elements[i]) && (!_contains(last, invisible_elements[i]))) {
-                        changes.push(invisible_elements[i]);
-                        last = invisible_elements[i];
+                    if (_is_visible(invisible_elements[i])) {
+                        if (!_contains(last, invisible_elements[i])) {
+                            changes.push(invisible_elements[i]);
+                            last = invisible_elements[i];
+                        }
+                        invisible_elements.splice(i, 1);
                     }
                 };
                 for (i = 0; i < changes.length; i++) {
