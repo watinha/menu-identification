@@ -85,6 +85,7 @@ page.open(args[1], function () {
                             row.changeId = (changes.length + i) + '-mut';
                             data_features.push(row);
                         };
+                        fs.write('data/' + index + '.activator.txt', elements_position[index].html, 'w');
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
                         page.render("data/" + index + ".second.png");
                     }

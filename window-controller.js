@@ -177,7 +177,7 @@
             get_visible_elements: function () {
                 var visible_positions = [];
                 for (var i = 0; i < visible_elements.length; i++) {
-                    visible_positions[i] = _position(visible_elements[i]);
+                    visible_positions[i] = _meta_data(visible_elements[i]);
                 };
                 return visible_positions;
             },
