@@ -1,7 +1,8 @@
 var page = require('webpage').create(),
     fs = require('fs'),
     args = require('system').args,
-    data_features = [];
+    data_features = [],
+    widget_cache = [];
 page.settings.userAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0';
 page.viewportSize = { width: 1200, height: 600 };
 
@@ -70,21 +71,31 @@ page.open(args[1], function () {
                         var output = '',
                             i, row;
                         for (i = 0; i < changes.length; i++) {
-                            output += changes[i].html + '**' + i + '\n';
-                            row = changes[i];
-                            row.activator = elements_position[index];
-                            row.activatorId = index;
-                            row.changeId = i;
-                            data_features.push(row);
+                            if (widget_cache.indexOf(changes[i].html) === -1) {
+                                output += changes[i].html + '**' + i + '\n';
+                                row = changes[i];
+                                row.activator = elements_position[index];
+                                row.activatorId = index;
+                                row.changeId = i;
+                                data_features.push(row);
+                                widget_cache.push(changes[i].html);
+                            }
                         };
                         for (i = 0; i < mutations.length; i++) {
-                            output += mutations[i].html + '**' + (changes.length + i) + '-mut\n';
-                            row = mutations[i];
-                            row.activator = elements_position[index];
-                            row.activatorId = index;
-                            row.changeId = (changes.length + i) + '-mut';
-                            data_features.push(row);
+                            if (widget_cache.indexOf(mutations[i].html) === -1) {
+                                output += mutations[i].html + '**' + (changes.length + i) + '-mut\n';
+                                row = mutations[i];
+                                row.activator = elements_position[index];
+                                row.activatorId = index;
+                                row.changeId = (changes.length + i) + '-mut';
+                                data_features.push(row);
+                                widget_cache.push(mutations[i].html);
+                            }
                         };
+                        if (output.length === 0) {
+                            fs.remove('data/' + index + '.first.png');
+                            return ;
+                        }
                         fs.write('data/' + index + '.activator.txt', elements_position[index].html, 'w');
                         fs.write('data/' + index + '.widgets.txt', output, 'w');
                         page.render("data/" + index + ".second.png");
