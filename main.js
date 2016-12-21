@@ -12,7 +12,8 @@ if (args.length < 2) {
 };
 
 var CommandChain = function (page) {
-    var commands = [];
+    var commands = [],
+        chain = [];
     return {
         add: function (f, context, time) {
             commands.push({
@@ -22,17 +23,22 @@ var CommandChain = function (page) {
             });
         },
         run: function () {
-            var total_time = 0;
             for (var i = 0; i < commands.length; i++) {
-                total_time += commands[i].time;
                 (function () {
                     var index = i;
-                    setTimeout(function () {
-                        console.log('Command chain: running command ' + index);
-                        commands[index].f.apply(commands[index].context, []);
-                    }, total_time);
+
+                    chain[index] = function () {
+                        setTimeout(function () {
+                            console.log('Command chain: running command ' + index);
+                            commands[index].f.apply(commands[index].context, []);
+
+                            if (chain[index + 1])
+                                chain[index + 1]();
+                        }, commands[index].time);
+                    };
                 }());
             };
+            chain[0]();
         }
     };
 };
