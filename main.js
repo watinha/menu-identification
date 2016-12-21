@@ -46,6 +46,14 @@ page.open(args[1], function () {
         }),
         chain = CommandChain(page);
 
+    chain.add(function () {
+        page.evaluate(function () {
+            for (var i = 0; i < 100000; i++) {
+                clearTimeout(i);
+                clearInterval(i);
+            };
+        });
+    }, this, 500);
     for (var i = 0; i < elements_position.length; i++) {
         if (elements_position[i].height < 100 && elements_position[i].width < 300) {
             (function () {
