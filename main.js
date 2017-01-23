@@ -61,6 +61,7 @@ page.open(args[1], function () {
         });
     }, this, 500);
     for (var i = 0; i < elements_position.length; i++) {
+        console.log('Setting CommandChain item ' + i);
         if (elements_position[i].height < 100 && elements_position[i].width < 300) {
             (function () {
                 var index = i;
@@ -79,7 +80,7 @@ page.open(args[1], function () {
                         mutations = page.evaluate(function () {
                             return window.WindowController.check_mutation_changes();
                         });
-                    if (changes.length === 0 && mutations.length === 0) {
+                    if (changes.length === 0 && mutations && mutations.length === 0) {
                         fs.remove("data/" + index + ".first.png");
                     } else {
                         var output = '',
@@ -95,7 +96,7 @@ page.open(args[1], function () {
                                 widget_cache.push(changes[i].html);
                             }
                         };
-                        for (i = 0; i < mutations.length; i++) {
+                        for (i = 0; mutations && i < mutations.length; i++) {
                             if (widget_cache.indexOf(mutations[i].html) === -1) {
                                 output += mutations[i].html + '**' + (changes.length + i) + '-mut\n';
                                 row = mutations[i];
