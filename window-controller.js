@@ -159,6 +159,8 @@
                     for (var j = 0; j < mutation.addedNodes.length; j++) {
                         added_elements.push(mutation.addedNodes[j]);
                     }
+                } else if (mutation.target) {
+                    added_elements.push(mutation.target);
                 }
             });
         });

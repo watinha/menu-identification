@@ -4,7 +4,7 @@ var page = require('webpage').create(),
     data_features = [],
     widget_cache = [];
 page.settings.userAgent = 'Mozilla/5.0 (X11; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0';
-page.viewportSize = { width: 1200, height: 600 };
+page.viewportSize = { width: 1200, height: 1024 };
 
 if (args.length < 2) {
     console.log('you should input an URL as well...');
@@ -46,6 +46,7 @@ var CommandChain = function (page) {
 page.open(args[1], function () {
     page.injectJs('visibility.js');
     page.injectJs('window-controller.js');
+    page.navigationLocked = true;
 
     var elements_position = page.evaluate(function () {
             return window.WindowController.get_visible_elements();
@@ -62,7 +63,7 @@ page.open(args[1], function () {
     }, this, 500);
     for (var i = 0; i < elements_position.length; i++) {
         console.log('Setting CommandChain item ' + i);
-        if (elements_position[i].height < 100 && elements_position[i].width < 300) {
+        if (elements_position[i].height < 300 && elements_position[i].width < 300) {
             (function () {
                 var index = i;
                 chain.add(function () {
@@ -72,7 +73,9 @@ page.open(args[1], function () {
                     page.render("data/" + index + ".first.png");
                     page.sendEvent('mousemove', (elements_position[index].left + (elements_position[index].width / 2)),
                                                 (elements_position[index].top + (elements_position[index].height / 2)));
-                }, this, 500);
+                    page.sendEvent('click', (elements_position[index].left + (elements_position[index].width / 2)),
+                                            (elements_position[index].top + (elements_position[index].height / 2)));
+                }, this, 1000);
                 chain.add(function () {
                     var changes = page.evaluate(function () {
                             return window.WindowController.check_visibility_changes();
